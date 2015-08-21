@@ -6,7 +6,7 @@
 
 ### Lazy instance with default options
 
-```
+```html
 <!-- The data-autocompltr attribute triggers the instantiation -->
 <select data-autocompltr>
   <option>Select a language</option>
@@ -21,7 +21,7 @@
 
 ### Or you can use the manual instance + options
 
-```
+```html
 <!-- No data-autocompltr -->
 <select id="languages">
   <!-- We are gonna provide a placeholder with the options -->
