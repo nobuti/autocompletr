@@ -47,7 +47,7 @@
   display: block; }
 
 .Autocompletr-hidden {
-  display: none; }
+  position: absolute; }
 
 .Autocompletr-selectedItem {
   background-color: rgba(68, 31, 135, 0.8);

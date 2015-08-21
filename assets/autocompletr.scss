@@ -64,8 +64,9 @@ $darker-highlight-color: rgba(50, 30, 87, 0.8);
   display: block;
 }
 
+// To avoid troubles with forms and hidden fields
 .Autocompletr-hidden {
-  display: none;
+  position: absolute;
 }
 
 .Autocompletr-selectedItem {

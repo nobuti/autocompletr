@@ -32,6 +32,11 @@
       match: 'Autocompletr-match'
     };
 
+    var orientations = {
+      up: 'up',
+      down: 'down'
+    }
+
     var KEYCODES = {
       ENTER: 13,
       ESC: 27,
@@ -138,8 +143,9 @@
       input.style.width = _self.width + 'px';
 
       input.setAttribute('class', classNames.textInput);
+      input.setAttribute('type', 'text');
       input.setAttribute('autocapitalize', 'off');
-      input.setAttribute('autocomplete', 'off');
+      input.setAttribute('autocomplete', 'false');
       input.setAttribute('autocorrect', 'off');
       input.setAttribute('spellcheck', 'false');
 
@@ -165,14 +171,21 @@
       var option = _self.target.querySelector('[selected]');
 
       if (option) {
-        _self.selectItem(option);
+        _self.selectItem(option, true);
       }
-
-      return option;
     };
 
+    var template = function(s,d) {
+      for(var p in d) {
+        s = s.replace(new RegExp('{'+p+'}','g'), d[p]);
+      }
+      return s;
+    }
+
     var createItemsFromBaseField = function() {
-      var items, regex, li;
+      var items = "", 
+          nodes, regex,
+          li = '<li class="' + classNames.listItem + '" data-value="{value}" data-label="{label}">{item}</li>';
 
       // Removes the first option if needed (DOM is faster than regex in this case)
       if (_self.options.removeFirstOptionFromSearch) {
@@ -183,28 +196,31 @@
         }
       }
 
-      // Clean up comments and whitespace
-      items = _self.target.innerHTML.replace(/<!--([^\[|(<!)].*)/g, '')
-        .replace(/\s{2,}/g, '')
-        .replace(/(\r?\n)/g, '');
+      nodes = _self.target.querySelectorAll('option');
+      [].slice.call(nodes).forEach(function(node){
+        var value = node.getAttribute('value') || "",
+            item = utils.getTextNode(node),
+            label = node.getAttribute('data-value') || item || "";
 
-      // Transforms all the <option> elements in <li> elements.
-      // The data-value attribute carries the original <option> value.
-      regex = /<option(?:[^>]*?value="([^"]*?)"|)[^>](?:[^>]*?data-value="([^"]*?)"|)[^>]*?>(.*?)<\/option>\n?/gi;
-      li = '<li class="' + classNames.listItem + '" data-value="$1" data-label="$2">$3</li>';
-      items = items.replace(regex, li);
+        items += template(li, {value: value, label: label, item: item});
+      });
 
       return items;
     };
 
-    var getTextFieldValue = function(item) {
-      var value = "";
-      if (item.getAttribute('data-label')) {
-        value = item.getAttribute('data-label');
+    var getTextFieldValue = function(item, isOption) {
+      var val = "",
+          label = item.getAttribute('data-label'),
+          value = item.getAttribute('data-value');
+
+      if (label != null && label !== "") {
+        val = item.getAttribute('data-label');
+      } else if (isOption === true && value != null && value !== "") {
+        val = value;
       } else {
-        value = item.getAttribute('data-value') ? item.getAttribute('data-value') : utils.getTextNode(item);
+        val = utils.getTextNode(item);
       }
-      return value;
+      return val;
     }
 
     var createEmptyList = function() {
@@ -314,6 +330,10 @@
           keyboardNavigate(keyPressed);
         }
       }
+
+      if (keyPressed === KEYCODES.ENTER) {
+        e.preventDefault();
+      }
     };
 
     var focusHandler = function(e) {
@@ -351,7 +371,9 @@
       }
 
       _self.toggleActiveItem();
-      utils.addClass(target, classNames.activeItem);
+      if (!utils.hasClass(target, classNames.noResults)) {
+        utils.addClass(target, classNames.activeItem);
+      }
     }
 
     var resizeHandler = function(e) {
@@ -439,38 +461,45 @@
       utils.removeClass(_self.textInput, classNames.textInputWithList);
     };
 
-    _self.selectItem = function(item) {
-      var selectedText, val;
-
-      selectedText = getTextFieldValue(item);
+    _self.selectItem = function(item, isOption) {
+      var selectedText, val,
+          option = isOption || false;
+      selectedText = getTextFieldValue(item, option);
       _self.textInput.value = selectedText;
       _self.hideList();
       val = item.getAttribute('data-value') ? item.getAttribute('data-value') : item.value;
       _self.target.value = val;
-      _self.value = val;
+      _self.value = selectedText;
 
       // onchange user callback
       _self.options.onchange.call(_self);
+
+      var event = new Event('change');
+      _self.target.dispatchEvent(event);
     };
 
     _self.repositionList = function() {
       var aboveInputOffset = _self.textInput.offsetTop,
-          belowInputOffset = Math.floor((_self.textInput.offsetTop + parseInt(_self.textInput.offsetHeight, 10))),
+          topFieldViewport = _self.textInput.getBoundingClientRect().top,
+          heightField = _self.textInput.offsetHeight,
+          heightList = _self.list.offsetHeight,
+          belowInputOffset = Math.floor((_self.textInput.offsetTop + heightField)),
           viewportHeight = w.innerHeight || d.documentElement.clientHeight,
-          topPosition = 0;
+          topPosition = 0,
+          data = "";
 
-      if ((belowInputOffset + _self.list.offsetHeight) > viewportHeight) {
-        // Show above
+      if (topFieldViewport + heightField + heightList > viewportHeight) {
         topPosition = aboveInputOffset - _self.list.offsetHeight;
+        data = orientations.up;
       } else {
-        // Show below
         topPosition = belowInputOffset;
+        data = orientations.down;
       }
 
       // Reposition the list accordingly
       _self.list.style.top = topPosition + 'px';
       _self.list.style.left = _self.textInput.offsetLeft + 'px';
-
+      _self.list.setAttribute('data-orientation', data);
       if (_self.options.fitList) {
         _self.list.style.width = _self.textInput.offsetWidth + 'px';
       }

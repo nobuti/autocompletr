@@ -282,7 +282,8 @@ var autocompleter = new Autocompletr(select).init();
 &lt;/select&gt;
 </pre>
 
-    <select class="Autocompletr-target" style="width: 110px;" data-autocompletr>
+<form action="">
+    <select id="foo" name="country" class="Autocompletr-target" style="width: 110px;" data-autocompletr>
       <option value="0">Country code</option>
       <option value="93" data-value="(+93)">Afghanistan (+93)</option>
       <option value="358-18" data-value="(+358-18)">Aland Islands (+358-18)</option>
@@ -301,12 +302,18 @@ var autocompleter = new Autocompletr(select).init();
       <option value="43" data-value="(+43)">Austria (+43)</option>
       <option value="994" data-value="(+994)">Azerbaijan (+994)</option>
     </select>
+    <input type="submit" value="Submit">
+</form>
 
     <script src="autocompletr.js"></script>
 
     <script>
         var select = document.getElementById('countrycode');
         var autocompletr = new Autocompletr(select).init();
+
+        document.getElementById('foo').addEventListener('change', function(e){
+            console.log(e.target.value);
+        }, false);
     </script>
 </body>
 </html>
