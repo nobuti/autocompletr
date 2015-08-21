@@ -6,7 +6,8 @@ $highlighter-color: rgba(68, 31, 135, 0.6);
 $highlight-color: rgba(68, 31, 135, 0.8);
 $darker-highlight-color: rgba(50, 30, 87, 0.8);
 
-.Autocompletr-target {
+.Autocompletr-target,
+[data-autocompletr] {
   opacity: 0;
   visibility: hidden;
 }
@@ -26,8 +27,8 @@ $darker-highlight-color: rgba(50, 30, 87, 0.8);
 
 .Autocompletr-list {
   background-color: $white;
-  border: 1px solid $main-purple;
   border-top: 0;
+  box-shadow: 0 0 0 1px $main-purple;
   display: none;
   list-style-type: none;
   margin: 0;
@@ -38,6 +39,11 @@ $darker-highlight-color: rgba(50, 30, 87, 0.8);
   z-index: 9999;
 }
 
+.Autocompletr-noResults {
+  font-size: 14px;
+  padding: 8px;
+}
+
 .Autocompletr-listItem {
   cursor: pointer;
   font-size: 14px;
@@ -45,7 +51,7 @@ $darker-highlight-color: rgba(50, 30, 87, 0.8);
 }
 
 .Autocompletr-activeItem {
-  background-color: $highlighter-color;
+  background-color: $highlight-color;
   color: $white;
 }
 

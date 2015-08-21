@@ -28,7 +28,6 @@
       hidden: 'Autocompletr-hidden',
       visible: 'Autocompletr-visible',
       activeItem: 'Autocompletr-activeItem',
-      selectedItem: 'Autocompletr-selectedItem',
       noResults: 'Autocompletr-noResults',
       match: 'Autocompletr-match'
     };
@@ -61,6 +60,16 @@
         } else {
           el.className += ' ' + className;
         }
+      },
+
+      hasClass: function(el, className) {
+        var result;
+        if (el.classList) {
+          result = el.classList.contains(className);
+        } else {
+          result = new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className);
+        }
+        return result;
       },
 
       removeClass: function(el, className) {
@@ -276,7 +285,7 @@
 
         if (_self.visible) {
           activeItem = _self.getActiveListItem();
-          if (activeItem) {
+          if (activeItem && !utils.hasClass(activeItem, classNames.noResults)) {
             _self.selectItem(activeItem);
           }
         } else {
@@ -327,9 +336,9 @@
 
       item = e.target.className === classNames.match ? e.target.parentNode : e.target;
 
-      if (item !== _self.list && item.className !== classNames.noResults) {
+      if (item !== _self.list) {
         activeItem = _self.getActiveListItem();
-        if (activeItem) {
+        if (activeItem  && !utils.hasClass(activeItem, classNames.noResults)) {
           _self.selectItem(activeItem);
         }
       }
@@ -440,9 +449,6 @@
       _self.target.value = val;
       _self.value = val;
 
-      _self.toggleSelectedItem();
-      utils.addClass(item, classNames.selectedItem);
-
       // onchange user callback
       _self.options.onchange.call(_self);
     };
@@ -498,11 +504,6 @@
 
     _self.getActiveListItem = function() {
       return _self.list.querySelector('.' + classNames.activeItem);
-    };
-
-    _self.toggleSelectedItem = function() {
-      var node = _self.list.querySelector('.' + classNames.selectedItem);
-      node && utils.removeClass(node, classNames.selectedItem);
     };
 
     _self.toggleActiveItem = function() {

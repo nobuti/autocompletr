@@ -1,4 +1,4 @@
-.Autocompletr-target {
+.Autocompletr-target, [data-autocompletr] {
   opacity: 0;
   visibility: hidden; }
 
@@ -15,8 +15,8 @@
 
 .Autocompletr-list {
   background-color: #fff;
-  border: 1px solid #763cbc;
   border-top: 0;
+  box-shadow: 0 0 0 1px #763cbc;
   display: none;
   list-style-type: none;
   margin: 0;
@@ -26,13 +26,17 @@
   position: absolute;
   z-index: 9999; }
 
+.Autocompletr-noResults {
+  font-size: 14px;
+  padding: 8px; }
+
 .Autocompletr-listItem {
   cursor: pointer;
   font-size: 14px;
   padding: 8px; }
 
 .Autocompletr-activeItem {
-  background-color: rgba(68, 31, 135, 0.6);
+  background-color: rgba(68, 31, 135, 0.8);
   color: #fff; }
 
 .Autocompletr-match {
