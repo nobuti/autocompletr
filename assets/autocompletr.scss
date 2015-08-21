@@ -1,0 +1,68 @@
+$white: #fff;
+$main-purple: #763cbc;
+$darker-purple: #321e57;
+$main-yellow: #fad662;
+$highlighter-color: rgba(68, 31, 135, 0.6);
+$highlight-color: rgba(68, 31, 135, 0.8);
+$darker-highlight-color: rgba(50, 30, 87, 0.8);
+
+.Autocompletr-target {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.Autocompletr-textInput, 
+.Autocompletr-list {
+  box-sizing: border-box;
+  font-family: arial, sans-serif;
+  font-size: 14px;
+}
+
+.Autocompletr-textInput {
+  border: 1px solid $main-purple;
+  display: inline-block;
+  padding: 8px;
+}
+
+.Autocompletr-list {
+  background-color: $white;
+  border: 1px solid $main-purple;
+  border-top: 0;
+  display: none;
+  list-style-type: none;
+  margin: 0;
+  max-height: 224px;
+  overflow: auto;
+  padding: 0;
+  position: absolute;
+  z-index: 9999;
+}
+
+.Autocompletr-listItem {
+  cursor: pointer;
+  font-size: 14px;
+  padding: 8px;
+}
+
+.Autocompletr-activeItem {
+  background-color: $highlighter-color;
+  color: $white;
+}
+
+.Autocompletr-match {
+  font-style: normal;
+  font-weight: bold;
+}
+
+.Autocompletr-visible {
+  display: block;
+}
+
+.Autocompletr-hidden {
+  display: none;
+}
+
+.Autocompletr-selectedItem {
+  background-color: $highlight-color;
+  color: $white;
+}

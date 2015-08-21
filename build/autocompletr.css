@@ -1,0 +1,50 @@
+.Autocompletr-target {
+  opacity: 0;
+  visibility: hidden; }
+
+.Autocompletr-textInput, .Autocompletr-list {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: arial, sans-serif;
+  font-size: 14px; }
+
+.Autocompletr-textInput {
+  border: 1px solid #763cbc;
+  display: inline-block;
+  padding: 8px; }
+
+.Autocompletr-list {
+  background-color: #fff;
+  border: 1px solid #763cbc;
+  border-top: 0;
+  display: none;
+  list-style-type: none;
+  margin: 0;
+  max-height: 224px;
+  overflow: auto;
+  padding: 0;
+  position: absolute;
+  z-index: 9999; }
+
+.Autocompletr-listItem {
+  cursor: pointer;
+  font-size: 14px;
+  padding: 8px; }
+
+.Autocompletr-activeItem {
+  background-color: rgba(68, 31, 135, 0.6);
+  color: #fff; }
+
+.Autocompletr-match {
+  font-style: normal;
+  font-weight: bold; }
+
+.Autocompletr-visible {
+  display: block; }
+
+.Autocompletr-hidden {
+  display: none; }
+
+.Autocompletr-selectedItem {
+  background-color: rgba(68, 31, 135, 0.8);
+  color: #fff; }
