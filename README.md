@@ -1,6 +1,7 @@
 # Autocompletr
 
-**autocompltr** is a simple autocomplete that does one job well.
+**autocompltr** is a simple autocomplete that does one job well. 
+It's slim, 2.6kb gzip and it has a fully customizable look and feel.
 
 ## Usage
 
