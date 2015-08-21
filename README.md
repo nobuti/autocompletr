@@ -5,7 +5,8 @@
 ## Usage
 
 ### Lazy instance with default options
-```html
+
+```
 <!-- The data-autocompltr attribute triggers the instantiation -->
 <select data-autocompltr>
   <option>Select a language</option>
@@ -14,38 +15,39 @@
   <option value="3">Ruby</option>
 </select>
 
-<!-- No additional JS needed - just load the lib and you're set -->
+<!-- Load the lib  -->
 <script src="autocompletr.min.js"></script>
 ```
 
-### Manual instance + custom options
-```html
+### Or you can use the manual instance + options
+
+```
 <!-- No data-autocompltr -->
-<select id="guitars">
+<select id="languages">
   <!-- We are gonna provide a placeholder with the options -->
   <option value="1">Javascript</option>
   <option value="2">PHP</option>
   <option value="3">Ruby</option>
 </select>
 
-<!-- No additional JS needed - just load the lib and you're set -->
+<!-- Load the library -->
 <script src="autocompletr.min.js"></script>
 
 <script>
-    var select = document.querySelector('#guitars');
+  var select = document.querySelector('#languages');
 
-    var barq = new Autocompletr(select, {
-        enablePagination: false,
-        removeFirstOptionFromSearch: false,
-        useFirstOptionTextAsPlaceholder: false,
-        placeholderText: 'Select a programming language',
-        noResultsMessage: 'No results, pal :(',
-        onchange: function() {
-            alert('You selected the ' + this.text + ' model.');
-        }
-    }).init();
+  var autocompletr = new Autocompletr(select, {
+      enablePagination: false,
+      fitList: false,
+      removeFirstOptionFromSearch: false,
+      useFirstOptionTextAsPlaceholder: false,
+      placeholderText: 'Select a programming language',
+      noResultsMessage: 'No results, pal :(',
+      onchange: function() {
+          alert('You selected the ' + this.text + ' model.');
+      }
+  }).init();
 </script>
-
 ```
 
 ### License
